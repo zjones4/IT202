@@ -27,7 +27,7 @@
  
  
  console.log(search);
- 
+ var count = 0;
  
 $.getJSON(Url , function(result){
      
@@ -35,19 +35,28 @@ $.getJSON(Url , function(result){
      
         $.each(result, function(i, field){
             
+            count= count+ 1;
+            
             var clone = $("#template").clone();
             
+            
+            
             $(clone).find(".panel-heading").text(field.aka_name);
-            $(clone).find(".panel-body").text(field.zip + field.status +field.facility_type + field.inspection_date);
+            $(clone).find(".panel-body").text("Zip: " + field.zip + " Status: "+ field.status + " Facility Type: " +field.facility_type + " Inspection_Date: "+ field.inspection_date);
+            $(clone).css("display:show");
             
             $("#screen2").append(clone);
             
             
         });
+        
+        
+$(".screen").append("Number of Results: "+ count);
+        
+        
     });
  
-    
-     
+ 
  }
  
 $("#sub").on("click", getData());
@@ -75,6 +84,9 @@ $("#sub").on("click", getData());
        #screen3{
            display:none;}
            
+           #panel-default{
+             display: none;
+           }
        
    </style>
   
@@ -152,7 +164,7 @@ $("#sub").on("click", getData());
 </div>
 
 <div class = "container screen" id = "screen3">
-       <h3>My Google Maps Demo</h3>
+       <h3>Resturant Inspection Locations</h3>
     <div id="map"></div>
     <script>
       function initMap() {
@@ -169,7 +181,7 @@ $("#sub").on("click", getData());
       
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmoVEN8YKhLAqzHxWJQplz5td-vMqUbOQ&callback=initMap">
     </script>
     
     
