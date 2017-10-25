@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Game App:  Animation, Keyboard, JS</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<style type="text/css">
+    #image{
+        display : none;
+    }
+    
+</style>
+
+</head>
+
+<body>
+
+<img class= "hidden" id = "image" target = "Image" src = "https://exra.exoticsracing.com/upload/site/models/ferrari_f430_f1/ferrari_f430-f1_main.png" >
+
+<canvas id = "canvas" width = "500" height = "500">
+    
+    
+</canvas>
+
+
+
+<script>
+
+
+
+
+$(document).ready(function() {
+
+
+	// arrow key keydown event handlers to change player position
+var character0 = {shape:"circle", radius:"20", x:"250", y:"460", color: "#000000"};
+var character1 = {shape:"square", width:"40", x:"167", y:"0", color:"#FF0000"};
+var character2 = {shape:"circle", radius:"20", x:"334", y:"20", color:"#00FF00"};
+
+var score = 0;
+var lives = 5;
+//setInterval(draw(character0,character1,character2),2);
+
+function draw (player, harm, bene) {
+	// update character position properties
+		var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+   
+   harm.y++;
+   if (harm.y++ > c.height){
+        harm.y = 0;
+       harm.x = Math.floor(Math.random() * 500);
+   }
+        
+   bene.y++;
+   if (bene.y++ > c.height){
+        bene.y = 0;
+        bene.x = Math.floor(Math.random() * 500);
+       
+   }
+        
+    ctx.fillStyle = "white";
+   ctx.fillRect(0,0,500,500);
+
+
+	
+if (areColliding(player,harm)) {
+	//  set properties
+}
+if (areColliding(player,bene)) {
+	//  set properties
+}
+if (reachedEdge(harm, 'bottom')) {
+	// set y property
+}
+
+drawCharacter(player);
+drawCharacter(harm);
+drawCharacter(bene);
+drawText(lives,score);
+}
+
+
+function drawText(lives, score){
+	var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+   
+     ctx.font = "14px Arial";
+     ctx.fillStyle = "black";
+ctx.fillText("Lives: "+ lives, 0,50);   
+ctx.fillText("Score: "+ score, 0,65);        
+        
+}
+
+
+function drawCharacter (character) {
+
+
+
+switch (character.shape) {
+		case 'circle' :
+			drawCircle(character.x, character.y, character.radius, character.color);
+			break;
+case 'square' :
+		// call function to draw square
+		
+			drawSq(character.x,character.y,character.width, character.width);
+		
+		break;
+case 'image' :
+		// call function to draw image
+		break;
+	default: 
+		console.log('character.shape case fell through');	
+}	
+}  
+
+function drawSq (x, y, width, height) {
+
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        
+        ctx.fillStyle = "red";
+   ctx.fillRect(x,y,width,height);
+
+       
+}
+
+function drawCircle (x, y, radius, color) {
+
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        
+       
+        ctx.beginPath();;
+        ctx.arc(x,y,radius,0,2* Math.PI);
+        
+        ctx.fillStyle = color;
+        ctx.fill();
+        
+}
+function areColliding(character1,character2) {
+	// use 2d collision for circles
+}
+
+function reachedEdge(character, edge) {
+	if (edge == 'bottom' && character.y > canvas.height)
+		return true;
+}
+
+document.addEventListener("keydown", function(event){
+    
+   
+    console.log(event.keyCode);
+    
+    if(event.keyCode == 39 && character0.x < 500){
+    console.log(character0.x++);
+        
+        
+    }
+    
+    else if(event.keyCode == 37 && character0.x > 0){
+    console.log(character0.x--);
+       
+    }
+
+draw(character0,character1,character2);
+
+});
+
+window.requestAnimationFrame(draw(character0,character1,character2));
+
+});
+
+</script>
+
+</body>
+
+</html>
