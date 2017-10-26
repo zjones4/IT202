@@ -31,14 +31,87 @@
 
 <script>
 
+
+
+
+$(document).ready(function() {
+
+
+	// arrow key keydown event handlers to change player position
+var character0 = {shape:"circle", radius:"20", x:"250", y:"460", color: "#000000"};
+var character1 = {shape:"square", radius: "20", width:"40", x:"167", y:"0", color:"#FF0000"};
+var character2 = {shape:"circle", radius:"20", x:"334", y:"20", color:"#00FF00"};
+
+var score = 0;
+var lives = 3;
+//setInterval(draw(character0,character1,character2),2);
+
+function endGame(){
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
+    
+    ctx.font = "30px Arial";
+     ctx.fillStyle = "red";
+ctx.fillText("You Lose", 250, 250);   
+    
+    
+}
+
+
+
+
 function draw (player, harm, bene) {
 	// update character position properties
+		var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+  
+   
+   harm.y++;
+   
+   if (harm.y++ > c.height){
+        harm.y = 0;
+       harm.x = Math.floor(Math.random() * 500);
+   }
+        
+   bene.y++;
+   if (bene.y++ > c.height){
+        bene.y = 0;
+        bene.x = Math.floor(Math.random() * 500);
+       
+   }
+        
+    ctx.fillStyle = "white";
+   ctx.fillRect(0,0,500,500);
+
+
 	
 if (areColliding(player,harm)) {
+    console.log("PH");
+	lives--;
+	
+	if(lives == 0){
+	    endGame();
+	return 0;
+	    
+	}
+	
+	
+	
+	harm.y = 0;
+	harm.x = Math.floor(Math.random()*500);
+	
 	//  set properties
 }
 if (areColliding(player,bene)) {
-	//  set properties
+console.log("pb");	//  set properties
+
+    
+    score += 10;
+    
+    bene.y = 0;
+    bene.x = Math.floor(Math.random() * 500);
+    
+    
 }
 if (reachedEdge(harm, 'bottom')) {
 	// set y property
@@ -47,15 +120,35 @@ if (reachedEdge(harm, 'bottom')) {
 drawCharacter(player);
 drawCharacter(harm);
 drawCharacter(bene);
+drawText(lives,score);
 }
 
+
+function drawText(lives, score){
+	var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+   
+     ctx.font = "14px Arial";
+     ctx.fillStyle = "black";
+ctx.fillText("Lives: "+ lives, 0,50);   
+ctx.fillText("Score: "+ score, 0,65);        
+        
+}
+
+
 function drawCharacter (character) {
+
+
+
 switch (character.shape) {
 		case 'circle' :
 			drawCircle(character.x, character.y, character.radius, character.color);
 			break;
 case 'square' :
 		// call function to draw square
+		
+			drawSq(character.x,character.y,character.width, character.width);
+		
 		break;
 case 'image' :
 		// call function to draw image
@@ -65,10 +158,23 @@ case 'image' :
 }	
 }  
 
+function drawSq (x, y, width, height) {
+
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        
+        ctx.fillStyle = "red";
+   ctx.fillRect(x,y,width,height);
+
+       
+}
+
 function drawCircle (x, y, radius, color) {
 
         var c = document.getElementById("canvas");
         var ctx = c.getContext("2d");
+        
+       
         ctx.beginPath();;
         ctx.arc(x,y,radius,0,2* Math.PI);
         
@@ -77,46 +183,61 @@ function drawCircle (x, y, radius, color) {
         
 }
 
-function areColliding(character1,character2) {
+
+function areColliding(characterA,characterB) {
 	// use 2d collision for circles
+
+var dx = characterA.x - characterB.x;
+var dy = characterA.y - characterB.y;
+var distance = Math.sqrt(dx * dx + dy * dy);
+
+console.log(distance);
+//console.log(characterA.radius + characterB.radius);
+var rad= parseInt(characterA.radius) + parseInt(characterB.radius);
+
+console.log(rad);
+
+
+if (distance < rad) {
+console.log("Colision detected");
+  return true;  // collision detected!
 }
+   
+   return false;
+}
+
 function reachedEdge(character, edge) {
 	if (edge == 'bottom' && character.y > canvas.height)
 		return true;
 }
 
-
-
-var character0 = {shape:"circle", radius:"20", x:"250", y:"500", color: "#000000"};
-var character1 = {shape:"circle", radius:"20", x:"167", y:"0", color:"#FF0000"};
-var character2 = {shape:"circle", radius:"20", x:"334", y:"0", color:"#00FF00"};
-
-
-
-var i = 0;
-
-
-$(document).ready(function() {
-	// arrow key keydown event handlers to change player position
-var character0 = {shape:"circle", radius:"20", x:"250", y:"500", color: "#000000"};
-var character1 = {shape:"circle", radius:"20", x:"167", y:"0", color:"#FF0000"};
-var character2 = {shape:"circle", radius:"20", x:"334", y:"0", color:"#00FF00"};
-
-document.addEventListener("keydown", function(event, i){
+document.addEventListener("keydown", function(event){
     
    
-    console.log(event.key);
+   // console.log(event.keyCode);
     
-    if(event.keyCode == '38')
+    if(event.keyCode == 39 && character0.x < 500){
     character0.x++;
-    //drawCircle(character0.x, character0.y, character0.radius, "#FFFFFF");
-    draw(character0,character1,character2);
+        
+        
+    }
     
-});
-//draw(character0,character1,character2);
+    else if(event.keyCode == 37 && character0.x > 0){
+        
+        character0.x--;
+       
+    }
+
+
+draw(character0,character1,character2);
+
+
+
 
 });
-//draw(character0,character1,character2);
+
+
+});
 
 </script>
 
