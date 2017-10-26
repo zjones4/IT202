@@ -43,8 +43,22 @@ var character1 = {shape:"square", radius: "20", width:"40", x:"167", y:"0", colo
 var character2 = {shape:"circle", radius:"20", x:"334", y:"20", color:"#00FF00"};
 
 var score = 0;
-var lives = 5;
+var lives = 3;
 //setInterval(draw(character0,character1,character2),2);
+
+function endGame(){
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
+    
+    ctx.font = "30px Arial";
+     ctx.fillStyle = "red";
+ctx.fillText("You Lose", 250, 250);   
+    
+    
+}
+
+
+
 
 function draw (player, harm, bene) {
 	// update character position properties
@@ -53,6 +67,7 @@ function draw (player, harm, bene) {
   
    
    harm.y++;
+   
    if (harm.y++ > c.height){
         harm.y = 0;
        harm.x = Math.floor(Math.random() * 500);
@@ -71,10 +86,32 @@ function draw (player, harm, bene) {
 
 	
 if (areColliding(player,harm)) {
+    console.log("PH");
+	lives--;
+	
+	if(lives == 0){
+	    endGame();
+	return 0;
+	    
+	}
+	
+	
+	
+	harm.y = 0;
+	harm.x = Math.floor(Math.random()*500);
+	
 	//  set properties
 }
 if (areColliding(player,bene)) {
-	//  set properties
+console.log("pb");	//  set properties
+
+    
+    score += 10;
+    
+    bene.y = 0;
+    bene.x = Math.floor(Math.random() * 500);
+    
+    
 }
 if (reachedEdge(harm, 'bottom')) {
 	// set y property
@@ -145,18 +182,28 @@ function drawCircle (x, y, radius, color) {
         ctx.fill();
         
 }
-function areColliding(character1,character2) {
+
+
+function areColliding(characterA,characterB) {
 	// use 2d collision for circles
 
-var dx = character1.x - character2.x;
-var dy = character1.y - character2.y;
+var dx = characterA.x - characterB.x;
+var dy = characterA.y - characterB.y;
 var distance = Math.sqrt(dx * dx + dy * dy);
 
-if (distance < character1.radius + character2.radius) {
-  console.log("collision");  // collision detected!
+console.log(distance);
+//console.log(characterA.radius + characterB.radius);
+var rad= parseInt(characterA.radius) + parseInt(characterB.radius);
+
+console.log(rad);
+
+
+if (distance < rad) {
+console.log("Colision detected");
+  return true;  // collision detected!
 }
-    
-    
+   
+   return false;
 }
 
 function reachedEdge(character, edge) {
@@ -167,20 +214,21 @@ function reachedEdge(character, edge) {
 document.addEventListener("keydown", function(event){
     
    
-    console.log(event.keyCode);
+   // console.log(event.keyCode);
     
     if(event.keyCode == 39 && character0.x < 500){
-    console.log(character0.x++);
+    character0.x++;
         
         
     }
     
     else if(event.keyCode == 37 && character0.x > 0){
-    console.log(character0.x--);
+        
+        character0.x--;
        
     }
 
-while(lives != 0)
+
 draw(character0,character1,character2);
 
 
