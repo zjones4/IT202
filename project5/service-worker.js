@@ -6,23 +6,23 @@ var dataCacheName = 'weatherData-v1';
 
 
 var filesToCache = [
-  'https://preview.c9users.io/zjones4/it202/project5/work/',
-  'https://preview.c9users.io/zjones4/it202/project5/work/index.html',
-  'https://preview.c9users.io/zjones4/it202/project5/work/scripts/app.js',
-  'https://preview.c9users.io/zjones4/it202/project5/work/styles/inline.css',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/clear.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/cloudy-scattered-showers.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/cloudy.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/fog.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/ic_add_white_24px.svg',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/ic_refresh_white_24px.svg',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/partly-cloudy.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/rain.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/scattered-showers.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/sleet.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/snow.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/thunderstorm.png',
-  'https://preview.c9users.io/zjones4/it202/project5/work/images/wind.png'
+  'https://preview.c9users.io/zjones4/it202/project5/',
+  'https://preview.c9users.io/zjones4/it202/project5/index.html',
+  'https://preview.c9users.io/zjones4/it202/project5/scripts/app.js',
+  'https://preview.c9users.io/zjones4/it202/project5/styles/inline.css',
+  'https://preview.c9users.io/zjones4/it202/project5/images/clear.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/cloudy-scattered-showers.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/cloudy.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/fog.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/ic_add_white_24px.svg',
+  'https://preview.c9users.io/zjones4/it202/project5/images/ic_refresh_white_24px.svg',
+  'https://preview.c9users.io/zjones4/it202/project5/images/partly-cloudy.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/rain.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/scattered-showers.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/sleet.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/snow.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/thunderstorm.png',
+  'https://preview.c9users.io/zjones4/it202/project5/images/wind.png'
 ];
 
 
