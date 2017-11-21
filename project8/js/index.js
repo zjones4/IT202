@@ -1,108 +1,151 @@
-"use strict";
+function Square(props){
+  return(
+  <button className = "square" onClick=
+    {props.onClick}>
+      {props.value}
+      </button>);
+}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+class Board extends React.Component {
 
-var Square = function (_React$Component) {
-  _inherits(Square, _React$Component);
-
-  function Square() {
-    _classCallCheck(this, Square);
-
-    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+  renderSquare(i) {
+    return <Square 
+ value = {this.props.squares[i]} 
+ onClick = {() => this.props.onClick(i)} />;
   }
 
-  Square.prototype.render = function render() {
-    return React.createElement("button", { className: "square" });
-  };
-
-  return Square;
-}(React.Component);
-
-var Board = function (_React$Component2) {
-  _inherits(Board, _React$Component2);
-
-  function Board() {
-    _classCallCheck(this, Board);
-
-    return _possibleConstructorReturn(this, _React$Component2.apply(this, arguments));
-  }
-
-  Board.prototype.renderSquare = function renderSquare(i) {
-    return React.createElement(Square, null);
-  };
-
-  Board.prototype.render = function render() {
-    var status = 'Next player: X';
-
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "div",
-        { className: "status" },
-        status
-      ),
-      React.createElement(
-        "div",
-        { className: "board-row" },
-        this.renderSquare(0),
-        this.renderSquare(1),
-        this.renderSquare(2)
-      ),
-      React.createElement(
-        "div",
-        { className: "board-row" },
-        this.renderSquare(3),
-        this.renderSquare(4),
-        this.renderSquare(5)
-      ),
-      React.createElement(
-        "div",
-        { className: "board-row" },
-        this.renderSquare(6),
-        this.renderSquare(7),
-        this.renderSquare(8)
-      )
+  render() {
+    return (
+      <div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>
     );
-  };
-
-  return Board;
-}(React.Component);
-
-var Game = function (_React$Component3) {
-  _inherits(Game, _React$Component3);
-
-  function Game() {
-    _classCallCheck(this, Game);
-
-    return _possibleConstructorReturn(this, _React$Component3.apply(this, arguments));
   }
+}
 
-  Game.prototype.render = function render() {
-    return React.createElement(
-      "div",
-      { className: "game" },
-      React.createElement(
-        "div",
-        { className: "game-board" },
-        React.createElement(Board, null)
-      ),
-      React.createElement(
-        "div",
-        { className: "game-info" },
-        React.createElement("div", null),
-        React.createElement("ol", null)
-      )
+class Game extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      history: [{
+        squares: Array(9).fill(null)
+      }],
+      stepNumber: 0,
+      xIsNext: true
+    };
+  }
+  
+  handleClick(i) {
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      history: history.concat([{
+        squares: squares
+      }]),
+      stepNumber: history.length,
+      xIsNext: !this.state.xIsNext,
+    });
+  }
+  
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      xIsNext: (step % 2) === 0,
+    });
+  }
+  
+  
+  
+  render() {
+    const history = this.state.history;
+    const current = history[this.state.stepNumber];
+    const winner = calculateWinner(current.squares);
+
+    
+     const moves = history.map((step, move) => {
+      const desc = move ?
+        'Go to move #' + move :
+        'Go to game start';
+      return (
+        <li key = {move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        </li>
+      );
+    });
+    
+    
+    let status;
+    if (winner) {
+      status = 'Winner: ' + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
+    
+    
+    
+    
+    return (
+      <div className="game">
+        <div className="game-board">
+          <Board 
+            squares = {current.squares}
+            onClick = {(i) => this.handleClick(i)}
+            />
+          
+        </div>
+        <div className="game-info">
+          <div>{ status }</div>
+          <ol>{ moves }</ol>
+        </div>
+      </div>
     );
-  };
+  }
+}
 
-  return Game;
-}(React.Component);
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
 
 // ========================================
 
-ReactDOM.render(React.createElement(Game, null), document.getElementById('root'));
+ReactDOM.render(
+  <Game />,
+  document.getElementById('root')
+);
