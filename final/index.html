@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class = "mdc-typography" lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -13,8 +13,10 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet"
-        href="https://unpkg.com/material-components-web@0.9.1/dist/material-components-web.min.css">
+        href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
   <link rel="stylesheet" href="app.css">
+
+<link href="https://fonts.googleapis.com/css?family=Ubuntu&effect=3d-float" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
@@ -22,27 +24,34 @@
   .mdc-card{
     display:none;
   }
-   .screen {
-     height: 400px;
+  
+  .screen {
+     height: 1000px;
      display:none;
     
-   }
+  }
+  
+  .mdc-toolbar__title{
+      font-family: Ubuntu, sans-serif;
+      font-size: 24pt;
+      color: lavender;
+  }
      
-      #map {
+  #map {
+        
         height: 400px;
         width: 100%;
        }   
 </style>
 
 <script
-    src="https://unpkg.com/material-components-web@0.9.1/dist/material-components-web.min.js">
+    src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js">
   </script>  
   
 
 </head>
 <body class="mdc-typography">
   
-
 
   
   
@@ -55,7 +64,7 @@
            aria-controls="shrine-nav-menu"
            data-mdc-auto-init="MDCRipple"
            data-mdc-ripple-is-unbounded>menu</a>
-        <h1 class="mdc-toolbar__title"><span>Ultimate Music App</span></h1>
+        <h1 class="mdc-toolbar__title font-effect-3d-float"><span>Ultimate Music App</span></h1>
       </section>
     </div>
   </header>
@@ -72,30 +81,85 @@
   </aside>
 
 <div class="container screen" id="Search">
-  
-  <h1><br><br>Search</h1>
-  
-  
+<div class="mdc-radio">
+  <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
+  <div class="mdc-radio__background">
+    <div class="mdc-radio__outer-circle"></div>
+    <div class="mdc-radio__inner-circle"></div>
+  </div>
 </div>
+<label id="radio-1-label" for="radio-1">Genre</label>
+
+<div class="mdc-radio">
+  <input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios">
+  <div class="mdc-radio__background">
+    <div class="mdc-radio__outer-circle"></div>
+    <div class="mdc-radio__inner-circle"></div>
+  </div>
+</div>
+<label id="radio-2-label" for="radio-2">Artist</label>
+<div class="mdc-radio">
+  <input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios">
+  <div class="mdc-radio__background">
+    <div class="mdc-radio__outer-circle"></div>
+    <div class="mdc-radio__inner-circle"></div>
+  </div>
+</div>
+<label id="radio-2-label" for="radio-2">Tracks</label>
+
+
+<br><br>
+
+<div class="mdc-text-field">
+  <input type="text" id="my-text-field" class="mdc-text-field__input">
+  <label class="mdc-text-field__label" for="my-text-field">Enter Search Here</label>
+  
+  <div class="mdc-text-field__bottom-line"></div>
+</div>
+
+<button id = "searchB" class="mdc-fab material-icons" aria-label="Search">
+  <span class="mdc-fab__icon">
+    search
+  </span>
+</button>
+<br>
+<button class = "mdc-button" data-mdc-auto-init = "MDCRipple">
+  Save Query
+</button>
+<br>
+<div id = "saved"></div>
+
+
+
+</div>
+
+
+
+
 <div class="container screen" id="Results">
 
 <h1><br><br>Results</h1>
 
+<div id= "Cards"></div>
+
+
 </div>
 
 <div class="container screen" id="Events">
-
-<h1><br><br>Events</h1>
-
+   <h1><br><br>Events</h1>
+   <div id = "map"></div>
 </div>
-
+  
+  <script type="text/javascript">
+    $("#Search").show();
+  </script>
 
 
   <main id="shrine-products" class="mdc-layout-grid mdc-toolbar-fixed-adjust">
 
 
     <div class="mdc-layout-grid__cell">
-      <div class="mdc-card shrine-product-card">
+      <div  id = "template" class="mdc-card shrine-product-card">
         <section class="mdc-card__primary">
           <span class="mdc-card__title shrine-product-card__price">$20</span>
         </section>
@@ -117,38 +181,72 @@
     });
   </script>
   
+    
+  
+ 
+
   <script>
+      function initMap(position) {
+         
+         if (!navigator.geolocation){
+    console.log("<p>Geolocation is not supported by your browser</p>");
+    return;
+  }
+  
+  
+   var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+  console.log(latitude, longitude);
+  
+        var userLocation = {lat: latitude, lng: longitude};
+        
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7,
+          center: userLocation
+        });
+        
+        var marker = new google.maps.Marker({
+          position: userLocation,
+          map: map
+        });
+        
+          
+       //map = new google.maps.event.trigger(map, "resize");
+      }
+      
+  
+      
     $(document).ready(function() {
+    
+    
     
     $("a#nav").on("click", function() {
       $(".screen").hide();
       var target = $(this).attr("href");
       console.log(target);
+     
+     
       $(target).show();
+      if (target == "#Events"){
+      
+        navigator.geolocation.getCurrentPosition(initMap);
+      
+       
+      $("#map").show();
+      }
+      //else {$("#map").hide()
+    //  }
+      
     });
     
   });
-    
   </script>
- <div id="Events"></div>
-    <script>
-      function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('Events'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAY7j6IsbT5Pc1Kcny8-KaXO1b9pZC9YZM">
     </script>
-   <script>initMap()</script>
-   
-   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAY7j6IsbT5Pc1Kcny8-KaXO1b9pZC9YZM&callback=initMap">
-    </script>
+  
+
+
 
 
 </body>

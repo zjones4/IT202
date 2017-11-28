@@ -2,7 +2,7 @@
 
 html, body {
   height: 100%;
-  background-color: #f2f2f2;
+  background-color: lavender;
 }
 
 .shrine-product-card {
@@ -10,6 +10,11 @@ html, body {
   border-radius: 4px;
   margin-bottom: 8px;
   background-color: white;
+}
+
+#searchB{
+  height: 40px;
+  width: 40px;
 }
 
 .shrine-product-card__price {
@@ -22,7 +27,8 @@ html, body {
 }
 
 #shrine-header {
-  background-color: var(--mdc-theme-background);
+  background: url(./assets/galaxy.jpg) ;
+  background-position: left;
   color: var(--mdc-theme-text-primary-on-background);
 }
 
@@ -50,16 +56,19 @@ html, body {
 }
 
 #shrine-nav-icon {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
+  font-size: 25pt;
+  margin-top: 35px;
   margin-right: 40px;
-  text-decoration: none;
+  margin-left: 20px;
+  text-decoration: none; 
 }
 
 #shrine-nav-icon:visited,
 #shrine-nav-icon:active,
 #shrine-nav-icon:focus {
-  color: var(--mdc-theme-text-primary-on-background);
+  color: lavender;
 }
 
 #shrine-nav-menu {
@@ -72,21 +81,19 @@ html, body {
 }
 
 #shrine-nav-menu .mdc-temporary-drawer__header {
-  background: url(assets/logo.png) 32px 32px no-repeat;
-  background-size: 30%;
+  background: url(https://t4.ftcdn.net/jpg/01/04/87/77/240_F_104877768_fSHff6MoqdTqIUUqwnbyYjDM2Z9TlTzH.jpg) 20px -55px no-repeat;
+  background-size: 80%;
 }
 
 #shrine-nav-menu .mdc-temporary-drawer__header::before {
   padding-top: 30%;
 }
 
-#shrine-nav-menu .mdc-temporary-drawer__content {
-  background: url(assets/diamond.svg) -32px bottom no-repeat;
-  background-size: 50%;
-}
+
 
 #shrine-nav-menu .mdc-list-item {
-  height: 32px;
+  font-size:20pt;
+  height: 40px;
   padding-left: 32px;
   letter-spacing: .2em;
 }
@@ -98,4 +105,12 @@ html, body {
 #shrine-products .mdc-layout-grid__cell {
   display: flex;
   justify-content: center;
+}
+
+#Search{
+  
+  padding-left: 10%;
+  padding-top: 20%;
+  
+  
 }
