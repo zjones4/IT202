@@ -18,13 +18,13 @@
 
 <link href="https://fonts.googleapis.com/css?family=Ubuntu&effect=3d-float" rel="stylesheet">
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style type="text/css">
-  .mdc-card{
+  
+  .mdc-card__horizontal-block{
     display:none;
   }
-  
+
   .screen {
      height: 1000px;
      display:none;
@@ -42,16 +42,22 @@
         height: 400px;
         width: 100%;
        }   
+       
+   #login {
+    display: none;
+  }
+
+  #loggedin {
+    display: none;
+  }
 </style>
 
 <script
     src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js">
   </script>  
-  
 
 </head>
 <body class="mdc-typography">
-  
 
   
   
@@ -80,7 +86,13 @@
     </nav>
   </aside>
 
+
+
+
+
 <div class="container screen" id="Search">
+
+<!--
 <div class="mdc-radio">
   <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
   <div class="mdc-radio__background">
@@ -106,14 +118,11 @@
   </div>
 </div>
 <label id="radio-2-label" for="radio-2">Tracks</label>
+-->
 
-
-<br><br>
-
+<h3 style="font-family:ubuntu">Artist Lookup</h3>
 <div class="mdc-text-field">
   <input type="text" id="my-text-field" class="mdc-text-field__input">
-  <label class="mdc-text-field__label" for="my-text-field">Enter Search Here</label>
-  
   <div class="mdc-text-field__bottom-line"></div>
 </div>
 
@@ -121,10 +130,6 @@
   <span class="mdc-fab__icon">
     search
   </span>
-</button>
-<br>
-<button class = "mdc-button" data-mdc-auto-init = "MDCRipple">
-  Save Query
 </button>
 <br>
 <div id = "saved"></div>
@@ -139,7 +144,11 @@
 <div class="container screen" id="Results">
 
 <h1><br><br>Results</h1>
-
+<button class = "mdc-button" data-mdc-auto-init = "MDCRipple">
+  Save Query
+</button>
+<br>
+<br>
 <div id= "Cards"></div>
 
 
@@ -155,20 +164,20 @@
   </script>
 
 
-  <main id="shrine-products" class="mdc-layout-grid mdc-toolbar-fixed-adjust">
+  <div id = "template" class="mdc-card__horizontal-block">
+  <section class="mdc-card__primary">
+    <h1 class="mdc-card__title mdc-card__title--large">Title here</h1>
+    <h2 class="mdc-card__subtitle">Subtitle here</h2>
+    <h2 id = "Album" class="mdc-card__subtitle">Subtitle here</h2>
+    <h2 id = "genre" class= "mdc-card__subtitle">subtitle here</h2>
+    <img id = "art" src=""></img>
+  </section>
+</div>
 
-
-    <div class="mdc-layout-grid__cell">
-      <div  id = "template" class="mdc-card shrine-product-card">
-        <section class="mdc-card__primary">
-          <span class="mdc-card__title shrine-product-card__price">$20</span>
-        </section>
-
-      </div>
-    </div>
+ 
+        
   
   
-  </main>
   
   
   
@@ -204,11 +213,34 @@
           zoom: 7,
           center: userLocation
         });
-        
-        var marker = new google.maps.Marker({
+
+   var marker = new google.maps.Marker({
           position: userLocation,
           map: map
-        });
+   });
+        
+        
+ var search =  $(".mdc-text-field__input#my-text-field").val();    
+        
+  search.replace(" ", "%20");      
+        
+$.get("https://rest.bandsintown.com/artists/"+ search + "/events?app_id=Music",
+function(response){
+    
+   $.each(response, function(i,v){
+       var local = {lat: parseFloat(v.venue.latitude), lng: parseFloat(v.venue.longitude)};
+      
+      console.log(local);
+      
+         var marker2 = new google.maps.Marker({
+          position: local,
+          map: map
+      
+   });
+    
+});
+
+});
         
           
        //map = new google.maps.event.trigger(map, "resize");
@@ -248,6 +280,18 @@
 
 
 
+<script  src="./projectdata.js"></script>
+<script>
+ if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+          .then(function(registration) {
+                console.log('Service Worker Registered');
+          });
 
+        navigator.serviceWorker.ready.then(function(registration) {
+           console.log('Service Worker Ready');
+        });
+      }
+</script>
 </body>
 </html>
