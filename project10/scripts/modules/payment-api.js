@@ -86,7 +86,7 @@ export default class PaymentAPIWrapper {
 {
     supportedMethods: ['https://android.com/pay'],
     data: {
-   
+      environment: 'TEST',
       // Credit Cards allowed via Android Pay
       allowedCardNetworks: ['AMEX', 'MASTERCARD', 'VISA', 'DISCOVER'],
       paymentMethodTokenizationParameters: {

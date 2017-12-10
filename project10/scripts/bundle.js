@@ -1213,7 +1213,7 @@ PaymentAPIWrapper = function () {function PaymentAPIWrapper() {_classCallCheck(t
       {
         supportedMethods: ['https://android.com/pay'],
         data: {
-
+          environment: 'TEST',
           // Credit Cards allowed via Android Pay
           allowedCardNetworks: ['AMEX', 'MASTERCARD', 'VISA', 'DISCOVER'],
           paymentMethodTokenizationParameters: {
