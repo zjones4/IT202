@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+<style type="text/css">
+    #template{
+        display:none;
+           }
+</style>
+
+<body>
+
+
+<div class="container" >
+  <h1>311 Grafitti Requests</h1>
+  
+  <div class="panel panel-default" id = "template">
+  <div class="panel-heading" style = "font-weight:bold">Panel Heading</div>
+  <div class="panel-body">Panel Content</div>
+</div>
+  <div id="results">
+      
+      
+  </div>
+  
+  <p>This is some text.
+  </p> 
+  
+  <h4></h4>
+  
+</div>
+
+
+
+<script>
+    
+    $(document).ready(function(){
+        $.get("https://data.cityofchicago.org/resource/cdmx-wzbz.json?$limit=100", function(response){
+            console.log(response);
+            $.each(response, function(i,v) {
+              
+               var clone = $("#template").clone();
+
+                if(v.status == "completed"){
+                    clone.find(".panel-heading").addAttr("background-color", "#FF0000");
+}
+                $(clone).find(".panel-heading").text(v.service_request_number);
+                $(clone).find(".panel-body").html(v.street_address + "<br>" + v.status);
+                $(clone).css("display", "block");
+                $("#results").append(clone);
+                
+});
+        });
+        
+        
+    });
+    
+</script>
+</body>
+</html>
