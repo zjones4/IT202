@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<title>Draw Circles</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<style>
+    
+    
+    
+</style>
+
+
+
+
+
+</head>
+
+<body>
+    <canvas id="Canvas" width = "500" height = "1000">
+        
+    </canvas>
+    
+    
+<script>
+     
+  
+  
+    function drawCircle(x,y){
+   
+   var radius = Math.floor(Math.random()*50);
+   
+        var c = document.getElementById("Canvas");
+        var ctx = c.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(x,y,radius,0,2* Math.PI);
+        ctx.font = "30px Arial";
+ctx.fillText("Hello World",x,y);
+        ctx.stroke();
+    }
+    
+  $("#Canvas").on("click", function(evt) {
+    
+    console.log(evt);
+    
+    drawCircle(evt.clientX, evt.clientY);
+    
+    
+  });
+    
+    
+</script>
+    
+</body>
+
+
+    
+    
+</html>
+
+
