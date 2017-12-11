@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Game App:  Animation, Keyboard, JS</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+
+
+</head>
+
+<body>
+
+<canvas id = "canvas" width = "500" height = "500"></canvas>
+
+
+
+<script>
+var character0 = {shape:"circle", radius:"50", x:"0", y:"250", color: "#FF0000"};
+var character1 = {shape:"circle", radius:"50", x:"400", y:"125", color:"#00FF00"};
+var character2 = {shape:"circle", radius:"50", x:"400", y:"375", color:"#0000FF"};
+
+function draw (player, harm, bene) {
+	// update character position properties
+	
+if (areColliding(player,harm)) {
+	//  set properties
+}
+if (areColliding(player,bene)) {
+	//  set properties
+}
+if (reachedEdge(harm, 'bottom')) {
+	// set y property
+}
+
+drawCharacter(player);
+drawCharacter(harm);
+drawCharacter(bene);
+
+	window.requestAnimationFrame(draw);
+	
+}
+
+function drawCharacter (character) {
+switch (character.shape) {
+		case 'circle' :
+			drawCircle(character.x, character.y, character.radius, character.color);
+			break;
+case 'square' :
+		// call function to draw square
+		break;
+case 'image' :
+		// call function to draw image
+		break;
+	default: 
+		console.log('character.shape case fell through');	
+}	
+}  
+
+function drawCircle (x, y, radius, color) {
+
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d");
+        ctx.beginPath();;
+        ctx.arc(x,y,radius,0,2* Math.PI);
+        
+        ctx.fillStyle = color;
+        ctx.fill();
+        
+}
+
+function areColliding(character1,character2) {
+	// use 2d collision for circles
+}
+function reachedEdge(character, edge) {
+	if (edge == 'bottom' && character.y > canvas.height)
+		return true;
+}
+
+$(document).ready(function() {
+	// arrow key keydown event handlers to change player position
+
+    $(document).on("keypress" ,function (evt){
+        var keyVal = evt.keyCode;
+        console.log(keyVal);
+    })
+    
+});
+
+draw(character0, character1, character2);
+</script>
+
+</body>
+
+</html>
